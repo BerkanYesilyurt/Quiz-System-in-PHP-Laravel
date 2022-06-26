@@ -90,7 +90,7 @@
 
     </head>
 
-    <body class="antialiased" >
+    <body class="antialiased" oncopy="return false" oncut="return false" onpaste="return false">
         <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0" style="background: #cbd5e0;">
 
             <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
@@ -118,15 +118,14 @@
                     <div style="padding: 30px; width: 600px; word-wrap: normal;">
                         @if(request()->session()->has('time') && request()->session()->has('questions'))
 
-                            <span class="badge badge-info" style="color: white; font-size: 130%;">{{request()->session()->get('time')}} seconds for per question</span>
-                            <span class="badge badge-info" style="color: white; font-size: 130%;">Total Questions: {{request()->session()->get('questions')}}</span>
-                            @php
-                            $i = 1;
-                            @endphp
+                            @if(isset($_GET["page"]))
+                                @if($_GET["page"] >= 1 && $_GET["page"] <= request()->session()->get('questions'))
+
+
                             @foreach($questions as $question)
-                                <br><br><br>
-                                <span class="badge badge-danger" style="color: white; font-size: 140%;">Question {{$i}}</span>
-                                <br><br>
+                                <br>
+                                <span class="badge badge-danger" style="color: white; font-size: 140%;">Question {{ isset($_GET["page"]) ? $_GET["page"] : "1" }}</span>
+                                 <div class="badge badge-dark" id="countdown" style="color: white; font-size: 140%;">Starting the Counter</div><br><br><br>
                                 <div style="background-color: rgba(156,255,136,0.69);display: inline-block;
     padding: 0.25em 0.4em;
     font-size: 140%;
@@ -137,30 +136,59 @@
     vertical-align: baseline;
     border-radius: 0.25rem;">{{$question->question}}</div><br><br>
                                 <label class="container" style="border-width: 3px;border-style: solid;border-image: linear-gradient(to right, #ac4eff, #44d2f4) 1;">{{$question->A}}
-                                    <input type="radio" name="question{{$question->id}}" id="question{{$question->id}}A"  value="{{$question->A}}">
+                                    <input type="radio" name="question{{$question->id}}" id="question{{$question->id}}A"  value="A">
                                     <span class="checkmark"></span>
                                 </label>
                                 <label class="container" style="border-width: 3px;border-style: solid;border-image: linear-gradient(to right, #ac4eff, #44d2f4) 1;">{{$question->B}}
-                                    <input type="radio" name="question{{$question->id}}" id="question{{$question->id}}B"  value="{{$question->B}}">
+                                    <input type="radio" name="question{{$question->id}}" id="question{{$question->id}}B"  value="B">
                                     <span class="checkmark"></span>
                                 </label>
                                 <label class="container" style="border-width: 3px;border-style: solid;border-image: linear-gradient(to right, #ac4eff, #44d2f4) 1;">{{$question->C}}
-                                    <input type="radio" name="question{{$question->id}}" id="question{{$question->id}}C"  value="{{$question->C}}">
+                                    <input type="radio" name="question{{$question->id}}" id="question{{$question->id}}C"  value="C">
                                     <span class="checkmark"></span>
                                 </label>
                                 <label class="container" style="border-width: 3px;border-style: solid;border-image: linear-gradient(to right, #ac4eff, #44d2f4) 1;">{{$question->D}}
-                                    <input type="radio" name="question{{$question->id}}" id="question{{$question->id}}D"  value="{{$question->D}}">
+                                    <input type="radio" name="question{{$question->id}}" id="question{{$question->id}}D"  value="D">
                                     <span class="checkmark"></span>
                                 </label>
                                 <center>
-                                {{$questions->links()}}
+                                    @if(!isset($_GET["page"]))
+                                        <nav role="navigation" aria-label="Pagination Navigation" class="flex justify-between">
+                                            <a id="btn" href="?page=2" rel="next" class="btn btn-primary btn-lg btn-block">
+                                                Next Question &raquo;
+                                            </a>
+                                        </nav>
+                                    @elseif($_GET["page"] == request()->session()->get('questions'))
+                                        <a id="btn" rel="next" class="btn btn-success btn-lg btn-block">
+                                            Submit All And Finish
+                                        </a>
+                                    @elseif($_GET["page"] >= 1 && $_GET["page"] < request()->session()->get('questions'))
+                                    <nav role="navigation" aria-label="Pagination Navigation" class="flex justify-between">
+                                        <a id="btn" href="?page={{ isset($_GET["page"]) ? $_GET["page"]+1 : "2" }}" rel="next" class="btn btn-primary btn-lg btn-block">
+                                            Next Question &raquo;
+                                        </a>
+                                    </nav>
+                                    @endif
                                 </center>
-
-                                @php
-                                    $i++;
-                                @endphp
                             @endforeach
-
+                                @else
+                                    Hata
+                                @endif
+                            @else
+                                <span class="badge badge-dark" style="color: white; font-size: 140%;">
+                                Welcome to the Quiz System.
+                                </span><br><br>
+                                <span class="badge badge-success" style="color: white; font-size: 140%;">
+                                You will be given {{request()->session()->get('questions')}} questions in total.
+                                </span><br><br>
+                                <span class="badge badge-success" style="color: white; font-size: 140%;">
+                                You will have {{request()->session()->get('time')}} seconds to answer each question.
+                                </span><br><br>
+                                <span class="badge badge-dark" style="color: white; font-size: 140%;">
+                                Good luck.
+                                </span><br><br><br>
+                                <a href="?page=1" class="btn btn-primary btn-lg btn-block">Let's Start</a>
+                            @endif
                             @else
 
                             <form name="check-first" id="check-first" method="post" action="{{url('check-first')}}">
@@ -175,21 +203,26 @@
                                     <button type="submit" class="btn btn-primary">Start a Quiz</button>
                                 </center>
                             </form>
-
                             @endif
 
                             </div>
                         </div>
 
                 @if(request()->session()->has('time') && request()->session()->has('questions'))
-                <br><br>
-                <button type="button" class="btn btn-danger" onclick="myFunc()">
+                    <center><br>
+                    <span class="badge badge-info" style="color: white; font-size: 130%;">{{request()->session()->get('time')}} seconds for per question</span>
+                    <span class="badge badge-info" style="color: white; font-size: 130%;">Total Questions: {{request()->session()->get('questions')}}</span>
+                    <br><br>
+
+                <button type="button" class="btn btn-danger btn-lg btn-block" onclick="myFunc()">
                     Quit the Quiz
                 </button>
+                    </center>
                 <script>
                     function myFunc() {
 
                         if (confirm("All the settings you set will be reset and you will be redirected to the homepage. Do you confirm?") == true) {
+                            sessionStorage.clear();
                             window.location.href = "logout";
                         }
 
@@ -201,6 +234,82 @@
 
             </div>
         </div>
+        @if(isset($_GET["page"]) && $_GET["page"] >= 1 && $_GET["page"] <= request()->session()->get('questions'))
+        <script>
+            var sH = sessionStorage.getItem({{$question->id}});
+            var timeleft = {{request()->session()->get('time')}};
+            if(sessionStorage.getItem({{$question->id}} + "time") === null){
+            sessionStorage.setItem({{$question->id}} + "time", timeleft);
+            }
 
+            if(sessionStorage.getItem({{$question->id}} + "out") != "out"){
+                var downloadTimer = setInterval(function(){
+                    if(sessionStorage.getItem({{$question->id}} + "time") <= 0){
+                        clearInterval(downloadTimer);
+                        document.getElementById("countdown").innerHTML = "Finished";
+                        sessionStorage.setItem({{$question->id}} + "out", "out");
+
+                        document.getElementById("question" + {{$question->id}} + "A").disabled=true;
+                        document.getElementById("question" + {{$question->id}} + "B").disabled=true;
+                        document.getElementById("question" + {{$question->id}} + "C").disabled=true;
+                        document.getElementById("question" + {{$question->id}} + "D").disabled=true;
+                        sessionStorage.setItem({{$question->id}}, "empty");
+
+                    } else {
+                        document.getElementById("countdown").innerHTML = sessionStorage.getItem({{$question->id}} + "time") + " seconds remaining";
+                    }
+                    timeleft = sessionStorage.getItem({{$question->id}} + "time") - 1;
+                    sessionStorage.removeItem({{$question->id}} + "time");
+                    sessionStorage.setItem({{$question->id}} + "time", timeleft);
+                    console.log(timeleft);
+                }, 1000);
+            }else{
+                document.getElementById("countdown").innerHTML = " Your time is up!";
+            }
+
+
+            document.addEventListener("DOMContentLoaded", function(event) {
+                if (sessionStorage.getItem({{$question->id}}) !== null) {
+                    if(sH == "A" || sH == "B" || sH == "C" || sH == "D"){
+                    document.getElementById("question" + {{$question->id}} + sessionStorage.getItem({{$question->id}})).checked = true;
+                    }
+                    document.getElementById("question" + {{$question->id}} + "A").disabled=true;
+                    document.getElementById("question" + {{$question->id}} + "B").disabled=true;
+                    document.getElementById("question" + {{$question->id}} + "C").disabled=true;
+                    document.getElementById("question" + {{$question->id}} + "D").disabled=true;
+                }
+            });
+
+                const btn = document.querySelector('#btn');
+                const radioButtons = document.querySelectorAll('input[name="question{{$question->id}}"]');
+                btn.addEventListener("click", () => {
+                    let selectedSize;
+                    for (const radioButton of radioButtons) {
+                        if (radioButton.checked) {
+                            selectedSize = radioButton.value;
+                            break;
+                        }
+                    }
+
+
+                    if(sessionStorage.getItem({{$question->id}}) === null){
+                        sessionStorage.setItem({{$question->id}}, selectedSize);
+                    }else if(sessionStorage.getItem({{$question->id}}) !== selectedSize)
+                    {
+                        var sH = sessionStorage.getItem({{$question->id}});
+                        if(sH == "A" || sH == "B" || sH == "C" || sH == "D"){
+                            alert("The answer you chose for this question was "+ sessionStorage.getItem({{$question->id}}) +". It cannot be changed after the time has expired or once answer is selected.")
+                            }else{
+                            alert("You did not answer this question. It cannot be changed after the time has expired.")
+                        }
+                    }
+                    if({{$question->id}} == {{request()->session()->get('questions')}}){
+                        alert(sessionStorage.getItem('1') + sessionStorage.getItem('2') + sessionStorage.getItem('3'));
+                    }
+                });
+
+            document.addEventListener('contextmenu', event => event.preventDefault());
+        </script>
+        @endif
     </body>
 </html>
