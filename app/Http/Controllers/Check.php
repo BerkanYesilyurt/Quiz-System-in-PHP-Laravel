@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * Quiz-System-in-PHP-Laravel
+ * Author: Berkan Yeşilyurt (https://github.com/BerkanYesilyurt)
+ * Repository: https://github.com/BerkanYesilyurt/Quiz-System-in-PHP-Laravel
+ */
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -15,11 +19,19 @@ class Check extends Controller
                 ->limit(request()->session()->get("questions"))
                 ->simplePaginate(1);
 
+            foreach($questions as $question){
+                if(request()->session()->has($question->id)){
+                }else{
+                    session([$question->id => $question->trueOption]);
+                }
+
+            }
+
             return view('welcome', [
                 'questions' => $questions
             ]);
         }else{
-        return view('welcome');
+            return view('welcome');
         }
     }
 
