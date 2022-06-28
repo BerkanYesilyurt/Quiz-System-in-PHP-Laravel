@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * Quiz-System-in-PHP-Laravel
+ * Author: Berkan Yeşilyurt (https://github.com/BerkanYesilyurt)
+ * Repository: https://github.com/BerkanYesilyurt/Quiz-System-in-PHP-Laravel
+ */
 namespace App\Http\Controllers;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
