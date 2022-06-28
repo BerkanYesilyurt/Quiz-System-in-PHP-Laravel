@@ -1,3 +1,10 @@
+@if(request()->session()->has('finished'))
+@php
+    header("Location: " . URL::to('finish'));
+    exit();
+@endphp
+@endif
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -125,7 +132,7 @@
                             @foreach($questions as $question)
                                 <br>
                                 <span class="badge badge-danger" style="color: white; font-size: 140%;">Question {{ isset($_GET["page"]) ? $_GET["page"] : "1" }}</span>
-                                 <div class="badge badge-dark" id="countdown" style="color: white; font-size: 140%;">Starting the Counter</div><br><br><br>
+                                 <div class="badge badge-dark" id="countdown" style="color: white; font-size: 140%;">Starting the Counter</div><br><br>
                                 <div style="background-color: rgba(156,255,136,0.69);display: inline-block;
     padding: 0.25em 0.4em;
     font-size: 140%;
@@ -159,7 +166,7 @@
                                             </a>
                                         </nav>
                                     @elseif($_GET["page"] == request()->session()->get('questions'))
-                                        <a id="btn" rel="next" class="btn btn-success btn-lg btn-block">
+                                        <a id="btn" href="{{route('finish')}}" rel="next" class="btn btn-success btn-lg btn-block">
                                             Submit All And Finish
                                         </a>
                                     @elseif($_GET["page"] >= 1 && $_GET["page"] < request()->session()->get('questions'))
@@ -213,7 +220,6 @@
                     <span class="badge badge-info" style="color: white; font-size: 130%;">{{request()->session()->get('time')}} seconds for per question</span>
                     <span class="badge badge-info" style="color: white; font-size: 130%;">Total Questions: {{request()->session()->get('questions')}}</span>
                     <br><br>
-
                 <button type="button" class="btn btn-danger btn-lg btn-block" onclick="myFunc()">
                     Quit the Quiz
                 </button>
@@ -303,10 +309,9 @@
                             alert("You did not answer this question. It cannot be changed after the time has expired.")
                         }
                     }
-                    if({{$question->id}} == {{request()->session()->get('questions')}}){
-                        alert(sessionStorage.getItem('1') + sessionStorage.getItem('2') + sessionStorage.getItem('3'));
-                    }
                 });
+
+
 
             document.addEventListener('contextmenu', event => event.preventDefault());
         </script>
