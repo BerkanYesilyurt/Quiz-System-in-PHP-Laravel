@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * Quiz-System-in-PHP-Laravel
+ * Author: Berkan Yeşilyurt (https://github.com/BerkanYesilyurt)
+ * Repository: https://github.com/BerkanYesilyurt/Quiz-System-in-PHP-Laravel
+ */
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
