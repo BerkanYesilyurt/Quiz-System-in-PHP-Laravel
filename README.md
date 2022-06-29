@@ -1,10 +1,36 @@
 # Quiz System in PHP Laravel
 Quiz System is a web application based on Laravel & PHP. This Quiz system allows users to solve the questions determined with the time given per question. When the quiz is over, all the answers given are compared with the correct answers and the detailed result is shown. 
 
+## Features
+- Changeable Number of Questions
+- Changeable Question Time  
+- Detailed Results Page
+- Validation of Fields
+- Custom Session Auth
+- Javascript Timer and DOM manipulation
+#### In Addition
+- Simple and Easy-to-Edit Design
+- If question time is over, no answer will be accepted  
+- The answer cannot be changed when you return to the question after it's answered
+- Continues with remaining time when page is refreshed
+- Results are displayed one second apart and sequentially
+
+**_In future versions, it will evolve into a advanced system with awesome design where all operations are manageable within the admin panel._**
+
+## Installation
+> Make sure you've installed Composer
+- Open the folder with any editor
+- Open ` .env ` and put your database details into it
+- Change the questions, options and other stuff in ` database/DatabaseSeeder.php `
+- Write these lines to editor's terminal or default terminal of your system (make sure you're inside of the folder)  
+
+   ` "php artisan migrate" ` then ` "php artisan db:seed" ` then ` "php artisan serve" `
+
+- That's it, you're ready to use it.
 ## Screenshots
 
-![Quiz System Homepage](https://user-images.githubusercontent.com/8729215/176030500-efeb734a-efb7-4988-b5e7-a384a4866443.png)
+![Quiz System Homepage](https://user-images.githubusercontent.com/8729215/176317309-c6b47193-5cd3-4faf-a586-a33d97711a1b.png)
 
-![Quiz System Index](https://user-images.githubusercontent.com/8729215/176030513-0218eabc-7fe1-4faa-89bd-c6ffd813160d.png)
+![Quiz System Index](https://user-images.githubusercontent.com/8729215/176316719-bbe61d6b-ec78-4699-8e25-1d990c7cab25.png)
 
-![Questions](https://user-images.githubusercontent.com/8729215/176030519-81ac0556-0724-4b80-8218-204a6e6160ec.png)
+![Questions](https://user-images.githubusercontent.com/8729215/176316737-3bf720f0-d06e-48ca-8227-8bd0198863c7.png)
