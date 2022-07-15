@@ -1,3 +1,7 @@
+<p align="center"> 
+<img src="https://user-images.githubusercontent.com/8729215/179297577-2a25b2e6-c3c7-4a4a-b43b-9a5c77b19190.png">
+</p>
+
 # Quiz System in PHP Laravel
 Quiz System is a web application based on Laravel & PHP. This Quiz system allows users to solve the questions determined with the time given per question. When the quiz is over, all the answers given are compared with the correct answers and the detailed result is shown. 
 
