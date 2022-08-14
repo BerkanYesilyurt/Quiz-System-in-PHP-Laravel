@@ -19,7 +19,6 @@ Quiz System is a web application based on Laravel & PHP. This Quiz system allows
 - Continues with remaining time when page is refreshed
 - Results are displayed one second apart and sequentially
 
-**_In future versions, it will evolve into a advanced system with awesome design where all operations are manageable within the admin panel._**
 
 ## Installation
 > Make sure you've installed Composer
@@ -28,7 +27,9 @@ Quiz System is a web application based on Laravel & PHP. This Quiz system allows
 - Change the questions, options and other stuff in ` database/DatabaseSeeder.php `
 - Write these lines to editor's terminal or default terminal of your system (make sure you're inside of the folder)  
 
-   ` "php artisan migrate" ` then ` "php artisan db:seed" ` then ` "php artisan serve" `
+     1.   ` "php artisan migrate" `
+     2.   ` "php artisan db:seed" `
+     3.   ` "php artisan serve" `
 
 - That's it, you're ready to use it.
 ## Screenshots
